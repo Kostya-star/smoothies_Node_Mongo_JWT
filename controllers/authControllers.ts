@@ -1,3 +1,5 @@
+import { User } from "../models/User"
+
 export const signup_get = (req, res) => {
   res.render('signup')
 }
@@ -7,9 +9,13 @@ export const login_get = (req, res) => {
   res.render('login')
 }
 
-export const signup_post = (req, res) => {
-  console.log(req.body);
-  res.send('new signup')
+export const signup_post = async (req, res) => {
+  try {
+    const user = await User.create(req.body)
+    res.status(201).json(user)
+  } catch (error) {
+    res.status(400).send('Error, user not created')
+  }
 }
 
 export const login_post = (req, res) => {

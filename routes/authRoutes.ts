@@ -14,4 +14,4 @@ router.post('/signup', signup_post)
 router.get('/login', login_get)
 router.post('/login', login_post)
 
-module.exports = router;
+export default router;

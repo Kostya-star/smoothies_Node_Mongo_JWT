@@ -1,4 +1,5 @@
 import { User } from '../models/User';
+import jwt from 'jsonwebtoken'
 
 const handleErrors = (err) => {
   let errors = { email: '', password: '' };
@@ -16,6 +17,14 @@ const handleErrors = (err) => {
   return errors;
 };
 
+const maxAge = 3 * 24 * 60 * 60
+
+const onCreateToken = (id) => {
+  return jwt.sign({ id }, 'smoothie app jwt secret', {
+    expiresIn: maxAge
+  })
+}
+
 export const signup_get = (req, res) => {
   res.render('signup');
 };
@@ -27,11 +36,12 @@ export const login_get = (req, res) => {
 export const signup_post = async (req, res) => {
   try {
     const user = await User.create(req.body);
-    res.status(201).json(user);
+    const token = onCreateToken(user._id)
+    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 })
+    res.status(201).json({ user: user._id });
   } catch (err) {
     const errors = handleErrors(err);
-    res.status(400).json({ errors });
-    // if(error.)
+    res.status(400).json({errors});
   }
 };
 

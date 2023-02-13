@@ -13,20 +13,35 @@
 
 <script>
   const form = document.querySelector('form')
+  const emailErr = document.querySelector('.email.error')
+  const passwordErr = document.querySelector('.password.error')
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // const email = form.email.value
-    // const password = form.password.value
-    const data = {}
+    const email = form.email.value
+    const password = form.password.value
 
-    for(const el of form.elements) {
-      if(el.name) {
-        data[el.name] = el.value
+    emailErr.textContent = ''
+    passwordErr.textContent = ''
+
+    try {
+      const resp = await fetch('/login', {
+        method: 'POST', 
+        body: JSON.stringify({ email, password }),
+        headers: { 'Content-Type': 'application/json' }
+      })
+      const data = await resp.json()
+      if(data.user) {
+        location.assign('/smoothies')
       }
+      if(data.errors) {
+        emailErr.textContent = data.errors.email
+        passwordErr.textContent = data.errors.password
+      }
+    } catch (error) {
+      console.log('loginerror', error);
     }
-    console.log(data);
   })
 </script>
 

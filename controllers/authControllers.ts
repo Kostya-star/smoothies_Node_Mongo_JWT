@@ -70,3 +70,8 @@ export const login_post = async (req, res) => {
     res.status(400).json({ errors });
   }
 };
+
+export const logout_get = (req, res) => {
+  res.cookie('jwt', '', { maxAge: 1 })
+  res.redirect('/login')
+}

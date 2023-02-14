@@ -49,8 +49,8 @@ export const login_get = (req, res) => {
 export const signup_post = async (req, res) => {
   try {
     const user = await User.create(req.body);
-    const token = onCreateToken(user._id)
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 })
+    // const token = onCreateToken(user._id)
+    // res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 })
     res.status(201).json({ user: user._id });
   } catch (err) {
     const errors = handleErrors(err);

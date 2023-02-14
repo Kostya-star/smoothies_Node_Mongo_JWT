@@ -33,7 +33,7 @@
       })
       const data = await resp.json()
       if(data.user) {
-        location.assign('/smoothies')
+        location.assign('/')
       }
       if(data.errors) {
         emailErr.textContent = data.errors.email

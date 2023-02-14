@@ -2,6 +2,7 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import mongoose from 'mongoose';
 import authRoutes from './routes/authRoutes';
+import { requireAuth } from './middleware/authMiddleware';
 
 const app = express();
 
@@ -20,8 +21,8 @@ mongoose
   .then(() => app.listen(3000))
   .catch((err) => console.log(err));
 
-app.get('/', (req, res) => res.render('home'));
+app.get('/', requireAuth, (req, res) => res.render('home'));
 
-app.get('/smoothies', (req, res) => res.render('smoothies'));
+app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
 
 app.use(authRoutes);

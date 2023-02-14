@@ -2,7 +2,7 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import mongoose from 'mongoose';
 import authRoutes from './routes/authRoutes';
-import { requireAuth } from './middleware/authMiddleware';
+import { checkUser, requireAuth } from './middleware/authMiddleware';
 
 const app = express();
 
@@ -20,6 +20,8 @@ mongoose
   .connect(mongoDB)
   .then(() => app.listen(3000))
   .catch((err) => console.log(err));
+
+app.get('*', checkUser)  
 
 app.get('/', requireAuth, (req, res) => res.render('home'));
 

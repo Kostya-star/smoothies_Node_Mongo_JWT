@@ -1,11 +1,6 @@
 import mongoose, { Document } from 'mongoose';
 import bcrypt from 'bcrypt';
 
-// export interface Document {
-//   email: string;
-//   password: string;
-// }
-
 export interface UserModel extends mongoose.Model<Document> {
   login(email: string, password: string): Document;
 }

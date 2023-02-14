@@ -1,8 +1,10 @@
 import jwt from 'jsonwebtoken';
 import { User } from './../models/User';
+import {Request, Response, NextFunction} from 'express'
 
-export const requireAuth = (req, res, next) => {
-  const token = req.cookies.jwt;
+
+export const requireAuth = (req: Request, res: Response, next: NextFunction): void => {
+  const token: string | undefined = req.cookies.jwt;
 
   if (token) {
     jwt.verify(token, 'smoothie app jwt secret', (err, decodedToken) => {
@@ -25,8 +27,8 @@ export const requireAuth = (req, res, next) => {
   }
 };
 
-export const checkUser = (req, res, next) => {
-  const token = req.cookies.jwt;
+export const checkUser = (req: Request, res: Response, next: NextFunction) => {
+  const token: string | undefined = req.cookies.jwt;
   if (token) {
     jwt.verify(token, 'smoothie app jwt secret', async (err, decodedToken) => {
       if (err) {
@@ -35,7 +37,8 @@ export const checkUser = (req, res, next) => {
         next();
       } else {
         console.log(decodedToken);
-        const user = await User.findById(decodedToken.id);
+        // @ts-expect-error
+        const user = await User.findById(decodedToken?.id);
         res.locals.user = user;
         next();
       }

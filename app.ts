@@ -1,8 +1,8 @@
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import mongoose from 'mongoose';
-import authRoutes from './routes/authRoutes';
-import { checkUser, requireAuth } from './middleware/authMiddleware';
+import { checkUser, requireAuth } from './src/middleware/authMiddleware';
+import authRoutes from './src/routes/authRoutes';
 
 const app = express();
 
@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.set('view engine', 'ejs');
+app.set('views', './src/views');
 
 mongoose.set('strictQuery', false);
 

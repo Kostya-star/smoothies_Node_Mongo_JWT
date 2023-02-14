@@ -21,7 +21,7 @@ mongoose
   .then(() => app.listen(3000))
   .catch((err) => console.log(err));
 
-app.get('*', checkUser)  
+app.get('*', checkUser);
 
 app.get('/', requireAuth, (req, res) => res.render('home'));
 

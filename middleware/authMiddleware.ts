@@ -10,6 +10,12 @@ export const requireAuth = (req, res, next) => {
         console.log(err.message);
         res.redirect('/login');
       } else {
+        // do not persist cache of the protected pages
+        res.set({
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+          });
         console.log(decodedToken);
         next();
       }
